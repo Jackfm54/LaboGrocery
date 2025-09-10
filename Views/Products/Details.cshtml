@@ -1,0 +1,32 @@
+@model LaboGrocery.Models.Product
+@{
+    ViewData["Title"] = @Model.Name;
+    var img = Url.Content($"~/images/products/{Model.Id}.jpg");
+}
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <img class="img-fluid rounded-4 shadow-sm" src="@img" alt="@Model.Name"
+                 onerror="this.onerror=null;this.src='/images/placeholder.svg';" />
+        </div>
+        <div class="col-md-6">
+            <h1 class="h2 mb-2">@Model.Name</h1>
+            <p class="text-muted">@Model.Category?.Name</p>
+            <h3 class="mb-4">@Model.Price.ToString("C")</h3>
+
+            <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="number" name="qty" value="1" min="1" class="form-control" style="width:120px" />
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-bag-plus"></i> Add to cart
+                </button>
+            </form>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+@model List<CartItem>
+    @{
+    ViewData["Title"] = L["Checkout"];
+    decimal total = Model.Sum(i => i.Price * i.Quantity);
+    }
+    <h1>@L["Checkout"]</h1>
+    <table class="table">
+        <thead><tr><th>@L["Product"]</th><th>@L["Qty"]</th><th>@L["Price"]</th><th>@L["Subtotal"]</th></tr></thead>
+        <tbody>
+            @foreach (var i in Model)
+    {
+            <tr><td>@i.Name</td><td>@i.Quantity</td><td>@i.Price.ToString("C")</td><td>@(i.Price * i.Quantity).ToString("C")</td></tr>
+    }
+        </tbody>
+    </table>
+    <h3>@L["Total"]: @total.ToString("C")</h3>
+
+    <div id="paypal-button-container" class="my-3"></div>
+
+    @section Scripts {
+        <script src="https://www.paypal.com/sdk/js?client-id=@(Context.RequestServices.GetRequiredService<IConfiguration>()["PayPal:ClientId"])&currency=CAD"></script>
+        <script>
+paypal.Buttons({
+    createOrder: function (data, actions) {
+        return fetch('@Url.Action("CreatePayPalOrder", "Orders")', { method: 'post' })
+            .then(res => res.json())
+            .then(data => data.id);
+    },
+    onApprove: function (data, actions) {
+        return fetch('@Url.Action("CapturePayPalOrder", "Orders")', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderId: data.orderID })
+        }).then(res => res.json()).then(_ => {
+            window.location.href = '@Url.Action("Success", "Orders")';
+        });
+    },
+    onCancel: function (data) {
+        window.location.href = '@Url.Action("Cancel", "Orders")';
+    }
+}).render('#paypal-button-container');
+        </script>
+    }

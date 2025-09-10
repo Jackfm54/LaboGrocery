@@ -1,0 +1,23 @@
+@model IEnumerable<LaboGrocery.Models.Product>
+    <h1>Products</h1>
+    <div class="mb-3">
+        <a class="btn btn-primary" asp-action="Create">+ Create</a>
+    </div>
+    <table class="table table-striped">
+        <thead><tr><th>Name</th><th>Category</th><th>Price</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var p in Model) {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.Category?.Name</td>
+                <td>@p.Price.ToString("C")</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@p.Id">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline" onsubmit="return confirm('Delete?')">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+  }
+        </tbody>
+    </table>

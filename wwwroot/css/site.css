@@ -1,0 +1,27 @@
+/* Tarjetas de productos */
+.product-card {
+	transition: transform .15s ease, box-shadow .15s ease;
+	border-radius: 16px;
+}
+
+	.product-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 24px rgba(0,0,0,.1);
+	}
+
+.product-img {
+	width: 100%;
+	aspect-ratio: 4/3; /* recorte consistente */
+	object-fit: cover;
+	border-top-left-radius: 16px;
+	border-top-right-radius: 16px;
+}
+
+.category-pills .btn {
+	border-radius: 999px;
+}
+
+.navbar-brand {
+	font-weight: 700;
+	letter-spacing: .2px;
+}

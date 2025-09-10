@@ -1,0 +1,62 @@
+@model LaboGrocery.Services.CartSummary
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h2 class="mb-4">Cart</h2>
+
+@if (!Model.Lines.Any())
+{
+<div class="alert alert-info">Tu carrito está vacío.</div>
+}
+else
+{
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th style="width:120px" class="text-end">Precio</th>
+                <th style="width:120px" class="text-end">Cantidad</th>
+                <th style="width:120px" class="text-end">Subtotal</th>
+                <th style="width:120px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in Model.Lines)
+                {
+            <tr>
+                <td>@l.Product.Name</td>
+                <td class="text-end">@l.Product.Price.ToString("C")</td>
+                <td class="text-end">@l.Qty</td>
+                <td class="text-end">@((l.Product.Price * l.Qty).ToString("C"))</td> @* <- sin doble @ *@
+                <td class="text-end">
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" name="id" value="@l.Product.Id" />
+                        <button class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash"></i> Quitar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+                }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" class="text-end">Total</th>
+                <th class="text-end">@Model.Total.ToString("C")</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="d-flex gap-2">
+    <form asp-action="Clear" method="post">
+        <button class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i> Vaciar</button>
+    </form>
+    <a class="btn btn-success" asp-controller="Orders" asp-action="Review">
+        <i class="bi bi-credit-card"></i> Pagar
+    </a>
+</div>
+}

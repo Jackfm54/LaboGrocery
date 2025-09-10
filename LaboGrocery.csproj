@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<!-- Asegúrate de que NO esté vacío -->
+		<TargetFramework>net8.0</TargetFramework>
+
+		<!-- Opcional pero recomendable -->
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Si venías con problema de archivos bloqueados, puedes dejar esto en true (genera solo DLL) -->
+		<UseAppHost>false</UseAppHost>
+
+		<!-- (Opcional) Para mitigar locks durante el copy -->
+		<CopyRetryCount>20</CopyRetryCount>
+		<CopyRetryDelayMilliseconds>1500</CopyRetryDelayMilliseconds>
+
+		<!-- (Opcional) Para esquivar bin/obj bloqueados; quítalos si no los necesitas -->
+		<BaseOutputPath>bin_alt\</BaseOutputPath>
+		<BaseIntermediateOutputPath>obj_alt\</BaseIntermediateOutputPath>
+	</PropertyGroup>
+
+	<!-- Mantén tus referencias existentes; este bloque es un ejemplo mínimo.
+       Si ya tienes paquetes añadidos, déjalos como estaban. -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+		<PackageReference Include="PayPalCheckoutSdk" Version="1.0.4" />
+	</ItemGroup>
+
+</Project>
